@@ -1,2 +1,5 @@
-# flutter_MultiDocumentInterface
-Attempting to create a MDI using flutter
+# flutter_mdi_demo
+
+A new Flutter project.
+
+Attempting to create a MultiDocument Interface using flutter.
