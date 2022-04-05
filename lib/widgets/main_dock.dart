@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/widgets/date_time_dock.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainDock extends ConsumerWidget {
+class MainDock extends StatelessWidget {
   const MainDock({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Positioned(
       bottom: 5,
-      left: 5,
+      left: 5,right :5,
       child: SizedBox(
         height: 50,
-        width: MediaQuery.of(context).size.width - 10,
+        //width: MediaQuery.of(context).size.width - 10,
         child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.black38,
-            borderRadius: BorderRadius.circular(5),
-          ),
+          decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(5)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(width: 5),
               const Card(
                 color: Colors.blue,
                 child: SizedBox(width: 30, height: 30),

@@ -31,8 +31,8 @@ class _DockDateTimeState extends ConsumerState<DockDateTime> with SingleTickerPr
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("${b.hour}:${b.minute}:${b.second}"),
-        Text("${b.day}/${b.month}/${b.year}"),
+        Text("${b.hour}:${b.minute}:${b.second}",style: TextStyle(color: Colors.white),),
+        Text("${b.day}/${b.month}/${b.year}",style: TextStyle(color: Colors.white),),
       ],
     );
   }
