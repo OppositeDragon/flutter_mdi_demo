@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/widgets/desktop.dart';
 import 'package:flutter_mdi_demo/widgets/main_dock.dart';
+import 'package:flutter_mdi_demo/widgets/windower.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Principal extends ConsumerWidget {
@@ -12,7 +13,7 @@ class Principal extends ConsumerWidget {
       body: Stack(
         children: [
           Desktop(),
-          MainDock(),
+          Windower(),
         ],
       ),
     );
