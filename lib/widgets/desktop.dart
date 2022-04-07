@@ -1,14 +1,17 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/models/desktop_icons.dart';
+import 'package:flutter_mdi_demo/widgets/windower.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Desktop extends StatelessWidget {
+class Desktop extends ConsumerWidget {
   Desktop({
     Key? key,
   }) : super(key: key);
 
-	
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -23,8 +26,7 @@ class Desktop extends StatelessWidget {
           direction: Axis.vertical,
           runAlignment: WrapAlignment.start,
           verticalDirection: VerticalDirection.down,
-          children: 
-					iconsDesk
+          children: iconsDesk
               .map((e) => SizedBox(
                     width: 80,
                     height: 100,
@@ -36,7 +38,7 @@ class Desktop extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onDoubleTap: () {
-                              print("double tap");
+                              ref.read(windowsProvider).createNewWindow("Hello there", CircularProgressIndicator());
                             },
                             child: MouseRegion(
                               cursor: SystemMouseCursors.click,
@@ -52,7 +54,7 @@ class Desktop extends StatelessWidget {
                             e.name,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 10,color: Colors.white),
+                            style: TextStyle(fontSize: 10, color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -60,7 +62,6 @@ class Desktop extends StatelessWidget {
                     ),
                   ))
               .toList(),
-							
         ),
       ],
     );

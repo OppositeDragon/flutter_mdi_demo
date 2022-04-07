@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/widgets/resizable_draggable_window.dart';
+import 'package:flutter_mdi_demo/widgets/windower.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WindowTitle extends StatelessWidget {
-  const WindowTitle(this.widget, {Key? key}) : super(key: key);
+class WindowTitle extends ConsumerWidget {
+  const WindowTitle(this.parentWindow, {Key? key}) : super(key: key);
 
-  final ResizableDraggableWindow widget;
+  final ResizableDraggableWindow parentWindow;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: 25,
       child: Row(
@@ -15,8 +17,9 @@ class WindowTitle extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: GestureDetector(
-               // onPanUpdate: (movement) => widget.onWindowDragged(movement.delta.dx, movement.delta.dy),
-                child: MouseRegion(cursor: SystemMouseCursors.move, child: Text("window title"))),
+                // onPanUpdate: (movement) => widget.onWindowDragged(movement.delta.dx, movement.delta.dy),
+								onPanUpdate: (details) => ref.read(windowsProvider).dragWindow(parentWindow, details.delta),
+                child: MouseRegion(cursor: SystemMouseCursors.move, child: Text(parentWindow.title))),
           ),
           MouseRegion(
             cursor: SystemMouseCursors.click,
@@ -41,7 +44,9 @@ class WindowTitle extends StatelessWidget {
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () {},//=> widget.onCloseButtonClicked(),
+              onTap: () {
+                ref.read(windowsProvider).removeWindow(parentWindow);
+              }, //=> widget.onCloseButtonClicked(),
               child: Container(
                 width: 50,
                 color: Colors.red,
