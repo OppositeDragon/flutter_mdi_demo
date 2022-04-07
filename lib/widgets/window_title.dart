@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mdi_demo/controller/window_controller.dart';
 import 'package:flutter_mdi_demo/widgets/resizable_draggable_window.dart';
 import 'package:flutter_mdi_demo/widgets/windower.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,9 +45,7 @@ class WindowTitle extends ConsumerWidget {
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () {
-                ref.read(windowsProvider).removeWindow(parentWindow);
-              }, //=> widget.onCloseButtonClicked(),
+              onTap: () => ref.read(windowsProvider).removeWindow(parentWindow),
               child: Container(
                 width: 50,
                 color: Colors.red,

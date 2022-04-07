@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/widgets/resizable_draggable_window.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final windowsProvider = ChangeNotifierProvider((ref) => WindowsController());
 
 class WindowsController with ChangeNotifier {
   final List<ResizableDraggableWindow> _windows = [];
@@ -24,10 +27,10 @@ class WindowsController with ChangeNotifier {
 
   void dragWindow(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
     print(delta.toString());
-    _windowPosition = Offset(
-      resizableDraggableWindow.posX += delta.dx,
-      resizableDraggableWindow.posY += delta.dy,
-    );
+
+    resizableDraggableWindow.posX += delta.dx;
+    resizableDraggableWindow.posY += delta.dy;
+
     notifyListeners();
   }
 
