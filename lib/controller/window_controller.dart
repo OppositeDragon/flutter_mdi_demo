@@ -35,6 +35,63 @@ class WindowsController with ChangeNotifier {
     notifyListeners();
   }
 
+  void onHorizontalDragRight(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    resizableDraggableWindow.currentWidth += delta.dx;
+    //_windowPosition = Offset(resizableDraggableWindow.posX, resizableDraggableWindow.posY);
+    if (resizableDraggableWindow.currentWidth <= 250) {
+      resizableDraggableWindow.currentWidth = 250;
+    } else {
+      notifyListeners();
+    }
+  }
+
+  void onVerticalDragBottom(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    resizableDraggableWindow.currentHeight += delta.dy;
+    if (resizableDraggableWindow.currentHeight <= 250) {
+      resizableDraggableWindow.currentHeight = 250;
+    } else {
+      notifyListeners();
+    }
+  }
+
+  void onHorizontalDragLeft(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    resizableDraggableWindow.currentWidth -= delta.dx;
+    if (resizableDraggableWindow.currentWidth > 250) {
+      dragWindow(resizableDraggableWindow, delta);
+    } else {
+      resizableDraggableWindow.currentWidth = 250;
+    }
+  }
+
+  void onVerticalDragTop(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    resizableDraggableWindow.currentHeight -= delta.dy;
+    if (resizableDraggableWindow.currentHeight > 250) {
+      dragWindow(resizableDraggableWindow, delta);
+    } else {
+      resizableDraggableWindow.currentHeight = 250;
+    }
+  }
+
+  void onDragTopLeft(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    onHorizontalDragLeft(resizableDraggableWindow, Offset(delta.dx, 0));
+    onVerticalDragTop(resizableDraggableWindow, Offset(0, delta.dy));
+  }
+
+  void onDragBottomRight(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    onHorizontalDragRight(resizableDraggableWindow, Offset(delta.dx, 0));
+    onVerticalDragBottom(resizableDraggableWindow, Offset(0, delta.dy));
+  }
+
+  void onDragTopRight(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    onHorizontalDragRight(resizableDraggableWindow, Offset(delta.dx, 0));
+    onVerticalDragTop(resizableDraggableWindow, Offset(0, delta.dy));
+  }
+
+  void onDragBottomLeft(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    onHorizontalDragLeft(resizableDraggableWindow, Offset(delta.dx, 0));
+    onVerticalDragBottom(resizableDraggableWindow, Offset(0, delta.dy));
+  }
+
   List<ResizableDraggableWindow> get windows => _windows;
   Offset get windowPosition => _windowPosition;
 }
