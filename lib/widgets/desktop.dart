@@ -4,7 +4,7 @@ import 'package:flutter_mdi_demo/models/desktop_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Desktop extends ConsumerWidget {
-  Desktop({Key? key}) : super(key: key);
+  const Desktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,7 +17,7 @@ class Desktop extends ConsumerWidget {
         ),
         Positioned(
           top: 0,
-          bottom: 50,
+          bottom: 60,
           child: Wrap(
             key: UniqueKey(),
             crossAxisAlignment: WrapCrossAlignment.start,
@@ -36,11 +36,16 @@ class Desktop extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             GestureDetector(
-                              onDoubleTap: () => ref.read(windowsProvider).createNewWindow(e.fileType.toString(), CircularProgressIndicator()),
+                              onDoubleTap: () => ref.read(windowsProvider).createNewWindow(
+                                  e.name.toString(),
+                                  Center(
+                                    child: Text("texto de una ventana, ${e.name}"),
+                                  ),
+                                  e),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: Image.asset(
-                                  e.icon,
+                                  e.iconPath,
                                   fit: BoxFit.contain,
                                   width: 50,
                                   height: 50,

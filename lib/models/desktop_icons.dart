@@ -2,10 +2,11 @@ enum FileType { FOLDER, IMAGE, VIDEO, MUSIC, PDF, HTML, TABLE, ACCORDION, REPORT
 
 class DesktopIcon {
   late FileType fileType;
-  late String icon;
+  late String iconPath;
   late String name;
 
-  DesktopIcon(this.fileType, this.icon, this.name);
+
+  DesktopIcon(this.fileType, this.iconPath, this.name);
 }
 
 List<DesktopIcon> iconsDesk = [

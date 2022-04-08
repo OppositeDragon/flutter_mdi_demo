@@ -1,15 +1,35 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mdi_demo/controller/dock_controller.dart';
+import 'package:flutter_mdi_demo/controller/window_controller.dart';
 import 'package:flutter_mdi_demo/widgets/date_time_dock.dart';
+import 'package:flutter_mdi_demo/widgets/dock_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainDock extends StatelessWidget {
+class MainDock extends ConsumerStatefulWidget {
   const MainDock({
     Key? key,
   }) : super(key: key);
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _MainDockState();
+}
+
+class _MainDockState extends ConsumerState<MainDock> {
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _MainDockState();
+
+  @override
+  void initState() {
+    super.initState();
+  //ref.read(dockProvider).getDockIcons();
+	}
 
   @override
   Widget build(BuildContext context) {
+    final a = ref.watch(dockProvider).getDockIcons();
+		
+    // print("asize ${a.length}");
     return Positioned(
       bottom: 5,
       left: 5,
@@ -41,7 +61,7 @@ class MainDock extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [],
+                      children: a.map((e) => DockItem(e)).toList(),
                     ),
                   ),
                   const SizedBox(

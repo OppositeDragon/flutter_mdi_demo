@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/controller/window_controller.dart';
+import 'package:flutter_mdi_demo/models/desktop_icons.dart';
 import 'package:flutter_mdi_demo/widgets/window_title.dart';
-import 'package:flutter_mdi_demo/widgets/windower.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ResizableDraggableWindow extends ConsumerWidget {
-  ResizableDraggableWindow(this.title, this.body, {this.iconPath = '', Key? key}) : super(key: UniqueKey());
+   ResizableDraggableWindow(this.title, this.body,this.icon, {Key? key}) : super(key: UniqueKey());
   final String title;
   final Widget body;
-  final String iconPath;
+  final DesktopIcon icon;
   final double currentHeight = 450;
   final double currentWidth = 350;
   double posX = 50;
   double posY = 40;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(windowsProvider);
+    ref.watch(windowsProvider.select((value) => value.windowPosition));
     return Positioned(
       top: posY,
       left: posX,

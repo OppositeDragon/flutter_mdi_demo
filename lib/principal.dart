@@ -12,8 +12,8 @@ class Principal extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Desktop(),
-          Windower(),
+          const Windower(),
+         const MainDock(),
         ],
       ),
     );
