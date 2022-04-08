@@ -9,8 +9,8 @@ class ResizableDraggableWindow extends ConsumerWidget {
   final String title;
   final Widget body;
   final DesktopIcon icon;
-  double currentHeight = 350;
-  double currentWidth = 250;
+  double currentHeight = 450;
+  double currentWidth = 500;
   double posX = 50;
   double posY = 40;
   @override

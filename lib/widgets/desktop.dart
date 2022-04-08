@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mdi_demo/controller/default_application_controller.dart';
 import 'package:flutter_mdi_demo/controller/window_controller.dart';
 import 'package:flutter_mdi_demo/models/desktop_icons.dart';
+import 'package:flutter_mdi_demo/widgets/apps/pdfx_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Desktop extends ConsumerWidget {
@@ -12,7 +14,7 @@ class Desktop extends ConsumerWidget {
       fit: StackFit.expand,
       children: [
         Image.asset(
-          "img/background.jpg",
+          "assets/img/background.jpg",
           fit: BoxFit.cover,
         ),
         Positioned(
@@ -26,7 +28,8 @@ class Desktop extends ConsumerWidget {
             runAlignment: WrapAlignment.start,
             verticalDirection: VerticalDirection.down,
             children: iconsDesk
-                .map((e) => SizedBox(
+                .map((e) {
+                  return SizedBox(
                       width: 80,
                       height: 100,
                       child: Card(
@@ -38,9 +41,7 @@ class Desktop extends ConsumerWidget {
                             GestureDetector(
                               onDoubleTap: () => ref.read(windowsProvider).createNewWindow(
                                   e.name.toString(),
-                                  Center(
-                                    child: Text("texto de una ventana, ${e.name}"),
-                                  ),
+                                 ref.read(defaultAppProvider).defaulApp(e.fileType),
                                   e),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
@@ -62,7 +63,8 @@ class Desktop extends ConsumerWidget {
                           ],
                         ),
                       ),
-                    ))
+                    );
+                })
                 .toList(),
           ),
         ),
