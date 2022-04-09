@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mdi_demo/controller/dock_controller.dart';
-import 'package:flutter_mdi_demo/controller/window_controller.dart';
 import 'package:flutter_mdi_demo/widgets/date_time_dock.dart';
 import 'package:flutter_mdi_demo/widgets/dock_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
