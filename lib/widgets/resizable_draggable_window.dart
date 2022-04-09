@@ -5,10 +5,11 @@ import 'package:flutter_mdi_demo/widgets/window_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ResizableDraggableWindow extends ConsumerWidget {
-  ResizableDraggableWindow(this.title, this.body, this.icon, {required Key key}) : super(key: key);
+  ResizableDraggableWindow(this.title, this.body, this.icon,this.orderNumber, {required Key key}) : super(key: key);
   final String title;
   final Widget body;
   final DesktopIcon icon;
+	final int orderNumber;
   double currentHeight = 400;
   double currentWidth = 500;
   double savedHeight = 0;

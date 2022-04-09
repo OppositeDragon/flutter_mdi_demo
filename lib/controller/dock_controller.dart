@@ -21,7 +21,7 @@ class DockController with ChangeNotifier {
       //agregar DockIcon a _dockIcons, solo si todavia no ha sido agregado
       if (!_dockIcons.any((element) => element.icon.fileType == openWindow.icon.fileType)) {
         //iterar sobre la lista de ventanas abiertas, y agregar a la lista de llaves,
-				// unicamente de las ventanas que coinciden con el tipo de archivo.
+        // unicamente de las ventanas que coinciden con el tipo de archivo.
         for (var oW in _listOfOpenWindows) {
           if (oW.icon.fileType == openWindow.icon.fileType) {
             _windowsKeys.add(oW.key!);
@@ -31,6 +31,7 @@ class DockController with ChangeNotifier {
       }
       _windowsKeys.clear();
     }
+    _dockIcons.sort((a, b) => a.icon.name.compareTo(b.icon.name));
     return _dockIcons;
   }
 

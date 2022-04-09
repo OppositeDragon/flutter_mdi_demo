@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mdi_demo/controller/window_controller.dart';
 import 'package:flutter_mdi_demo/models/dock_icons.dart';
+import 'package:flutter_mdi_demo/widgets/resizable_draggable_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DockItem extends ConsumerStatefulWidget {
@@ -13,9 +15,11 @@ class DockItem extends ConsumerStatefulWidget {
 class _DockItemState extends ConsumerState<DockItem> {
   bool onOverlay = false;
   OverlayEntry? entry;
+  late List<ResizableDraggableWindow> windows;
   @override
   void initState() {
     super.initState();
+    windows = ref.read(windowsProvider).windows;
   }
 
   void showOverlay() {
@@ -24,45 +28,56 @@ class _DockItemState extends ConsumerState<DockItem> {
     final offset = renderBox.localToGlobal(Offset.zero);
     final size = renderBox.size;
     entry = OverlayEntry(
-        builder: (context) => Positioned(
-              width: size.width + 30,
-              bottom: 60,
-              left: (offset.dx - 15),
-              child: buildOverlay(),
-            ));
-    overlay!.insert(entry!);
-  }
-
-  Widget buildOverlay() {
-    return MouseRegion(
-      onEnter: (_) => onOverlay = true,
-      onExit: (_) {
-        onOverlay = false;
-
-          if (!onOverlay&&entry!=null) {
-            removeOverlay();
-          }
-        
-      },
-      child: Material(
-        elevation: 16,
-        borderRadius: BorderRadius.circular(5),
-        clipBehavior: Clip.antiAlias,
-        color: Colors.black.withOpacity(0.75),
-        child: Column(
-          children: [
-            for (var icon in widget.dockIcon.windowKeys)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.dockIcon.icon.name,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-          ],
+      builder: (context) => Positioned(
+        width: size.width + 30,
+        bottom: 60,
+        left: (offset.dx - 15),
+        child: MouseRegion(
+          onEnter: (_) => onOverlay = true,
+          onExit: (_) {
+            onOverlay = false;
+            if (!onOverlay && entry != null) {
+              removeOverlay();
+            }
+          },
+          child: Material(
+            elevation: 16,
+            borderRadius: BorderRadius.circular(5),
+            clipBehavior: Clip.antiAlias,
+            color: Colors.black.withOpacity(0.75),
+            child: Column(
+              children: [
+                for (final key in widget.dockIcon.windowKeys)
+                  GestureDetector(
+                    onTap: () {
+											
+                      final window = windows. firstWhere((window) => window.key == key);
+                      print(window.key);
+                      ref.read(windowsProvider).toFront(window);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 0.5, color: Colors.white70),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                       key.toString()+" " + widget.dockIcon.icon.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w200),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
+    overlay!.insert(entry!);
   }
 
   void removeOverlay() {
@@ -80,16 +95,13 @@ class _DockItemState extends ConsumerState<DockItem> {
         if (entry == null) {
           showOverlay();
         }
-          
       },
       onExit: (_) async {
-       // onOverlay = false;
+        // onOverlay = false;
         await Future.delayed(const Duration(milliseconds: 300), () {
-          
-            if (!onOverlay&&entry!=null) {
-              removeOverlay();
-            }
-          
+          if (!onOverlay && entry != null) {
+            removeOverlay();
+          }
         });
       },
       child: Column(

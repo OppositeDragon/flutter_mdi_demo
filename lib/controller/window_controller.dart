@@ -9,15 +9,17 @@ enum WindowState { MAXIMIZED, MINIMIZED, NORMAL }
 class WindowsController with ChangeNotifier {
   final List<ResizableDraggableWindow> _windows = [];
   late Offset _windowPosition = Offset.zero;
-
+  int orderNumber = 0;
   void createNewWindow(String title, Widget body, DesktopIcon icon) {
     ResizableDraggableWindow resizableDraggableWindow = ResizableDraggableWindow(
       title,
       body,
       icon,
+      orderNumber,
       key: UniqueKey(),
     );
     _windows.add(resizableDraggableWindow);
+    orderNumber++;
     notifyListeners();
   }
 
@@ -116,6 +118,10 @@ class WindowsController with ChangeNotifier {
     onVerticalDragBottom(resizableDraggableWindow, Offset(0, delta.dy));
   }
 
-  List<ResizableDraggableWindow> get windows => _windows;
+  List<ResizableDraggableWindow> get windows {
+    
+    return _windows;
+  }
+
   Offset get windowPosition => _windowPosition;
 }
