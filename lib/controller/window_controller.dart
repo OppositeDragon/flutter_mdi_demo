@@ -8,11 +8,15 @@ enum WindowState { MAXIMIZED, MINIMIZED, NORMAL }
 
 class WindowsController with ChangeNotifier {
   final List<ResizableDraggableWindow> _windows = [];
-  late Offset _windowPosition = Offset(0, 0);
+  late Offset _windowPosition = Offset.zero;
 
   void createNewWindow(String title, Widget body, DesktopIcon icon) {
-    ResizableDraggableWindow resizableDraggableWindow = ResizableDraggableWindow(title, body, icon);
-
+    ResizableDraggableWindow resizableDraggableWindow = ResizableDraggableWindow(
+      title,
+      body,
+      icon,
+      key: UniqueKey(),
+    );
     _windows.add(resizableDraggableWindow);
     notifyListeners();
   }
@@ -40,7 +44,6 @@ class WindowsController with ChangeNotifier {
 
   void maximizeWindow(ResizableDraggableWindow resizableDraggableWindow) {
     if (resizableDraggableWindow.windowState == WindowState.MAXIMIZED) {
-      print(resizableDraggableWindow.savedHeight);
       resizableDraggableWindow.currentHeight = resizableDraggableWindow.savedHeight;
       resizableDraggableWindow.currentWidth = resizableDraggableWindow.savedWidth;
       resizableDraggableWindow.windowState = WindowState.NORMAL;
@@ -48,15 +51,12 @@ class WindowsController with ChangeNotifier {
     } else {
       Size size = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size;
       dragWindow(resizableDraggableWindow, Offset(-resizableDraggableWindow.posX, -resizableDraggableWindow.posY));
-
       resizableDraggableWindow.savedHeight = resizableDraggableWindow.currentHeight;
       resizableDraggableWindow.savedWidth = resizableDraggableWindow.currentWidth;
       resizableDraggableWindow.currentHeight = size.height - 60;
       resizableDraggableWindow.currentWidth = size.width;
       resizableDraggableWindow.windowState = WindowState.MAXIMIZED;
     }
-
-    print(resizableDraggableWindow.windowState);
     notifyListeners();
   }
 

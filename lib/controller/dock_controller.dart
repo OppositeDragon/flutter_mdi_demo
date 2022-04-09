@@ -13,23 +13,23 @@ class DockController with ChangeNotifier {
   DockController(this._listOfOpenWindows);
   final List<ResizableDraggableWindow> _listOfOpenWindows;
   final List<DockIcon> _dockIcons = [];
-
+  final List<Key> _windowsKeys = [];
   List<DockIcon> getDockIcons() {
     print("getdockitems");
     _dockIcons.clear();
-    int ni = 0;
     for (var openWindow in _listOfOpenWindows) {
-      for (var oW in _listOfOpenWindows) {
-        if (oW.icon.fileType == openWindow.icon.fileType) {
-          ni++;
+      //agregar DockIcon a _dockIcons, solo si todavia no ha sido agregado
+      if (!_dockIcons.any((element) => element.icon.fileType == openWindow.icon.fileType)) {
+        //iterar sobre la lista de ventanas abiertas, y agregar a la lista de llaves,
+				// unicamente de las ventanas que coinciden con el tipo de archivo.
+        for (var oW in _listOfOpenWindows) {
+          if (oW.icon.fileType == openWindow.icon.fileType) {
+            _windowsKeys.add(oW.key!);
+          }
         }
+        _dockIcons.add(DockIcon(openWindow.icon, [..._windowsKeys]));
       }
-      if (_dockIcons.any((element) => element.icon.fileType == openWindow.icon.fileType)) {
-        _dockIcons.firstWhere((element) => element.icon.fileType == openWindow.icon.fileType).numInstancias = ni;
-      } else {
-        _dockIcons.add(DockIcon(openWindow.icon, ni));
-      }
-      ni = 0;
+      _windowsKeys.clear();
     }
     return _dockIcons;
   }

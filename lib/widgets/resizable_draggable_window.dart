@@ -5,7 +5,7 @@ import 'package:flutter_mdi_demo/widgets/window_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ResizableDraggableWindow extends ConsumerWidget {
-  ResizableDraggableWindow(this.title, this.body, this.icon, {Key? key}) : super(key: UniqueKey());
+  ResizableDraggableWindow(this.title, this.body, this.icon, {required Key key}) : super(key: key);
   final String title;
   final Widget body;
   final DesktopIcon icon;
@@ -29,8 +29,8 @@ class ResizableDraggableWindow extends ConsumerWidget {
           elevation: 8,
           clipBehavior: Clip.antiAlias,
           color: Colors.amber.withOpacity(0.75),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
+          child: AnimatedContainer(curve: Curves.easeInOutCubic,
+            duration: const Duration(milliseconds: 120),
             height: currentHeight,
             width: currentWidth,
             child: Stack(

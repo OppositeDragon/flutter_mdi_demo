@@ -8,7 +8,7 @@ class DockItem extends StatelessWidget {
   final DockIcon dockIcon;
   @override
   Widget build(BuildContext context) {
-    int numDots = dockIcon.numInstancias >= 3 ? 3 : dockIcon.numInstancias;
+    int numDots = dockIcon.windowKeys.length >= 3 ? 3 : dockIcon.windowKeys.length;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +60,7 @@ class DockItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  child: SizedBox(width: 7, height: 7),
+                  child: SizedBox(width: 8, height: 8),
                 )
             ],
           ),
