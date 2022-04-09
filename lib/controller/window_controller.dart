@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mdi_demo/controller/dock_controller.dart';
 import 'package:flutter_mdi_demo/models/desktop_icons.dart';
 import 'package:flutter_mdi_demo/widgets/resizable_draggable_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final windowsProvider = ChangeNotifierProvider((ref) => WindowsController());
+enum WindowState { MAXIMIZED, MINIMIZED, NORMAL }
 
 class WindowsController with ChangeNotifier {
   final List<ResizableDraggableWindow> _windows = [];
@@ -29,15 +29,39 @@ class WindowsController with ChangeNotifier {
   }
 
   void dragWindow(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
+    if (resizableDraggableWindow.windowState == WindowState.MAXIMIZED) {
+      maximizeWindow(resizableDraggableWindow);
+    }
     resizableDraggableWindow.posX += delta.dx;
     resizableDraggableWindow.posY += delta.dy;
     _windowPosition = Offset(resizableDraggableWindow.posX, resizableDraggableWindow.posY);
     notifyListeners();
   }
 
+  void maximizeWindow(ResizableDraggableWindow resizableDraggableWindow) {
+    if (resizableDraggableWindow.windowState == WindowState.MAXIMIZED) {
+      print(resizableDraggableWindow.savedHeight);
+      resizableDraggableWindow.currentHeight = resizableDraggableWindow.savedHeight;
+      resizableDraggableWindow.currentWidth = resizableDraggableWindow.savedWidth;
+      resizableDraggableWindow.windowState = WindowState.NORMAL;
+      dragWindow(resizableDraggableWindow, const Offset(100, 100));
+    } else {
+      Size size = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size;
+      dragWindow(resizableDraggableWindow, Offset(-resizableDraggableWindow.posX, -resizableDraggableWindow.posY));
+
+      resizableDraggableWindow.savedHeight = resizableDraggableWindow.currentHeight;
+      resizableDraggableWindow.savedWidth = resizableDraggableWindow.currentWidth;
+      resizableDraggableWindow.currentHeight = size.height - 60;
+      resizableDraggableWindow.currentWidth = size.width;
+      resizableDraggableWindow.windowState = WindowState.MAXIMIZED;
+    }
+
+    print(resizableDraggableWindow.windowState);
+    notifyListeners();
+  }
+
   void onHorizontalDragRight(ResizableDraggableWindow resizableDraggableWindow, Offset delta) {
     resizableDraggableWindow.currentWidth += delta.dx;
-    //_windowPosition = Offset(resizableDraggableWindow.posX, resizableDraggableWindow.posY);
     if (resizableDraggableWindow.currentWidth <= 250) {
       resizableDraggableWindow.currentWidth = 250;
     } else {

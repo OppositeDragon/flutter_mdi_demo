@@ -9,23 +9,28 @@ class ResizableDraggableWindow extends ConsumerWidget {
   final String title;
   final Widget body;
   final DesktopIcon icon;
-  double currentHeight = 450;
+  double currentHeight = 400;
   double currentWidth = 500;
-  double posX = 50;
-  double posY = 40;
+  double savedHeight = 0;
+  double savedWidth = 0;
+  double posX = 85;
+  double posY = 45;
+  WindowState windowState = WindowState.NORMAL;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(windowsProvider.select((value) => value.windowPosition));
+    ref.watch(windowsProvider);
     return Positioned(
       top: posY,
       left: posX,
       child: GestureDetector(
         onTap: () => ref.read(windowsProvider).toFront(this),
         child: Card(
+          margin: EdgeInsets.zero,
           elevation: 8,
           clipBehavior: Clip.antiAlias,
           color: Colors.amber.withOpacity(0.75),
-          child: SizedBox(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
             height: currentHeight,
             width: currentWidth,
             child: Stack(
@@ -45,10 +50,7 @@ class ResizableDraggableWindow extends ConsumerWidget {
                     child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeLeftRight,
                       opaque: true,
-                      child: SizedBox(
-                        width: 4,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.lightBlue)),
-                      ),
+                      child: SizedBox(width: 4),
                     ),
                   ),
                 ),
@@ -58,13 +60,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   bottom: 0,
                   child: GestureDetector(
                     onHorizontalDragUpdate: (details) => ref.watch(windowsProvider).onHorizontalDragLeft(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeLeftRight,
                       opaque: true,
-                      child: SizedBox(
-                        width: 4,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.lightGreen)),
-                      ),
+                      child: SizedBox(width: 4),
                     ),
                   ),
                 ),
@@ -74,13 +73,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   right: 0,
                   child: GestureDetector(
                     onVerticalDragUpdate: (details) => ref.watch(windowsProvider).onVerticalDragTop(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeUpDown,
                       opaque: true,
-                      child: SizedBox(
-                        height: 4,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.orange)),
-                      ),
+                      child: SizedBox(height: 4),
                     ),
                   ),
                 ),
@@ -90,13 +86,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   bottom: 0,
                   child: GestureDetector(
                     onVerticalDragUpdate: (details) => ref.watch(windowsProvider).onVerticalDragBottom(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeUpDown,
                       opaque: true,
-                      child: SizedBox(
-                        height: 4,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.black)),
-                      ),
+                      child: SizedBox(height: 4),
                     ),
                   ),
                 ),
@@ -105,14 +98,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   top: 0,
                   child: GestureDetector(
                     onPanUpdate: (details) => ref.watch(windowsProvider).onDragTopLeft(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeUpLeftDownRight,
                       opaque: true,
-                      child: SizedBox(
-                        height: 6,
-                        width: 6,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.yellow)),
-                      ),
+                      child: SizedBox(height: 6, width: 6),
                     ),
                   ),
                 ),
@@ -121,14 +110,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   right: 0,
                   child: GestureDetector(
                     onPanUpdate: (details) => ref.watch(windowsProvider).onDragBottomRight(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeUpLeftDownRight,
                       opaque: true,
-                      child: SizedBox(
-                        height: 6,
-                        width: 6,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.yellow)),
-                      ),
+                      child: SizedBox(height: 6, width: 6),
                     ),
                   ),
                 ),
@@ -137,14 +122,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   top: 0,
                   child: GestureDetector(
                     onPanUpdate: (details) => ref.watch(windowsProvider).onDragTopRight(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeUpRightDownLeft,
                       opaque: true,
-                      child: SizedBox(
-                        height: 6,
-                        width: 6,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.cyanAccent)),
-                      ),
+                      child: SizedBox(height: 6, width: 6),
                     ),
                   ),
                 ),
@@ -153,14 +134,10 @@ class ResizableDraggableWindow extends ConsumerWidget {
                   bottom: 0,
                   child: GestureDetector(
                     onPanUpdate: (details) => ref.watch(windowsProvider).onDragBottomLeft(this, details.delta),
-                    child: MouseRegion(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeUpRightDownLeft,
                       opaque: true,
-                      child: SizedBox(
-                        height: 6,
-                        width: 6,
-                        child: DecoratedBox(decoration: BoxDecoration(color: Colors.cyanAccent)),
-                      ),
+                      child: SizedBox(height: 6, width: 6),
                     ),
                   ),
                 ),
