@@ -48,6 +48,7 @@ class WindowsController with ChangeNotifier {
     if (resizableDraggableWindow.windowState == WindowState.MAXIMIZED) {
       resizableDraggableWindow.currentHeight = resizableDraggableWindow.savedHeight;
       resizableDraggableWindow.currentWidth = resizableDraggableWindow.savedWidth;
+      resizableDraggableWindow.prevWindowState = WindowState.NORMAL;
       resizableDraggableWindow.windowState = WindowState.NORMAL;
       dragWindow(resizableDraggableWindow, const Offset(100, 100));
     } else {
@@ -55,10 +56,26 @@ class WindowsController with ChangeNotifier {
       dragWindow(resizableDraggableWindow, Offset(-resizableDraggableWindow.posX, -resizableDraggableWindow.posY));
       resizableDraggableWindow.savedHeight = resizableDraggableWindow.currentHeight;
       resizableDraggableWindow.savedWidth = resizableDraggableWindow.currentWidth;
-      resizableDraggableWindow.currentHeight = size.height - 60;
+      resizableDraggableWindow.currentHeight = size.height - 57;
       resizableDraggableWindow.currentWidth = size.width;
+      resizableDraggableWindow.prevWindowState = WindowState.MAXIMIZED;
       resizableDraggableWindow.windowState = WindowState.MAXIMIZED;
     }
+    notifyListeners();
+  }
+
+  void minimizeWindow(ResizableDraggableWindow resizableDraggableWindow) {
+    if (resizableDraggableWindow.windowState == WindowState.MINIMIZED) {
+      unminimizeWindow(resizableDraggableWindow);
+    } else {
+      resizableDraggableWindow.windowState = WindowState.MINIMIZED;
+      notifyListeners();
+    }
+  }
+
+  void unminimizeWindow(ResizableDraggableWindow resizableDraggableWindow) {
+    toFront(resizableDraggableWindow);
+    resizableDraggableWindow.windowState = resizableDraggableWindow.prevWindowState;
     notifyListeners();
   }
 
@@ -119,7 +136,6 @@ class WindowsController with ChangeNotifier {
   }
 
   List<ResizableDraggableWindow> get windows {
-    
     return _windows;
   }
 

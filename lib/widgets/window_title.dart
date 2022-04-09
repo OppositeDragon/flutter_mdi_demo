@@ -23,17 +23,20 @@ class WindowTitle extends ConsumerWidget {
           ),
           MouseRegion(
             cursor: SystemMouseCursors.click,
-            child: Container(
-              height: 25,
-              width: 32,
-              color: Colors.blueGrey.shade100,
-              child: const Icon(Icons.minimize_sharp),
+            child: GestureDetector(
+              onTap: () => ref.read(windowsProvider).minimizeWindow(parentWindow),
+              child: Container(
+                height: 25,
+                width: 32,
+                color: Colors.blueGrey.shade100,
+                child: const Icon(Icons.minimize_sharp),
+              ),
             ),
           ),
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: (() => ref.read(windowsProvider).maximizeWindow(parentWindow)),
+              onTap: () => ref.read(windowsProvider).maximizeWindow(parentWindow),
               child: Container(
                 height: 25,
                 width: 32,
@@ -50,7 +53,7 @@ class WindowTitle extends ConsumerWidget {
             child: GestureDetector(
               onTap: () => ref.read(windowsProvider).removeWindow(parentWindow),
               child: Container(
-								height: 25,
+                height: 25,
                 width: 60,
                 color: Colors.red,
                 child: const Icon(Icons.close_sharp),

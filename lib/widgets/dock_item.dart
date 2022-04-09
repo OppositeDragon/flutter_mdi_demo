@@ -30,7 +30,7 @@ class _DockItemState extends ConsumerState<DockItem> {
     entry = OverlayEntry(
       builder: (context) => Positioned(
         width: size.width + 30,
-        bottom: 60,
+        bottom: 57,
         left: (offset.dx - 15),
         child: MouseRegion(
           onEnter: (_) => onOverlay = true,
@@ -45,33 +45,38 @@ class _DockItemState extends ConsumerState<DockItem> {
             borderRadius: BorderRadius.circular(5),
             clipBehavior: Clip.antiAlias,
             color: Colors.black.withOpacity(0.75),
-            child: Column(
-              children: [
-                for (final key in widget.dockIcon.windowKeys)
-                  GestureDetector(
-                    onTap: () {
-											
-                      final window = windows. firstWhere((window) => window.key == key);
-                      print(window.key);
-                      ref.read(windowsProvider).toFront(window);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
-                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 0.5, color: Colors.white70),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                       key.toString()+" " + widget.dockIcon.icon.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w200),
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Column(
+                children: [
+                  for (final key in widget.dockIcon.windowKeys)
+                    GestureDetector(
+                      onTap: () {
+                        final window = windows.firstWhere((window) => window.key == key);
+                        ref.read(windowsProvider).unminimizeWindow(window);
+                        onOverlay = false;
+                        if (!onOverlay && entry != null) {
+                          removeOverlay();
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 0.5, color: Colors.white70),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          key.toString() + " " + widget.dockIcon.icon.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w200),
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -98,7 +103,7 @@ class _DockItemState extends ConsumerState<DockItem> {
       },
       onExit: (_) async {
         // onOverlay = false;
-        await Future.delayed(const Duration(milliseconds: 300), () {
+        await Future.delayed(const Duration(milliseconds: 150), () {
           if (!onOverlay && entry != null) {
             removeOverlay();
           }
