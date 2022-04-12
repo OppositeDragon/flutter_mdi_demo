@@ -18,7 +18,7 @@ class MDIApp extends ConsumerWidget
     return MaterialApp(
       title: 'Flutter MDI DEMO',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,brightness: Brightness.dark
       ),
       home: const Principal(),
     );
